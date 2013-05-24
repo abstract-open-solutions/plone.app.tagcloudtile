@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer
+      name="plone.app.tagcloudtile"
+      interface="plone.app.tagcloudtile.interfaces.ILayer"
+      />
+</layers>

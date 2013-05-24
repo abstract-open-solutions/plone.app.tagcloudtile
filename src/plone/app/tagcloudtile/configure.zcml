@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone.app.tagcloudtile">
+
+  <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
+
+  <genericsetup:registerProfile
+    name="default"
+    title="plone.app.tagcloudtile"
+    directory="profiles/default"
+    description="Installs the plone.app.tagcloudtile package"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+  <!-- -*- extra stuff goes here -*- -->
+
+  <utility
+    component=".vocabularies.SubjectsVocabularyFactory"
+    name="plone.app.tagcloudtile.subjects"
+    />
+
+  <plone:tile
+    name="tagcloud.tile"
+    title="Tag cloud tile"
+    description=""
+    class=".tile.TagCloud"
+    schema=".tile.ITagCloudSchema"
+    template="tile.pt"
+    permission="zope.Public"
+    add_permission="cmf.ModifyPortalContent"
+    for="*"
+    layer=".interfaces.ILayer"
+    />
+
+</configure>

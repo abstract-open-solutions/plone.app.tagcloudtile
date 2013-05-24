@@ -1,0 +1,25 @@
+<dl class="tile tagCloudTile"
+    i18n:domain="plone.app.tagcloudtile">
+    
+    <dt class="tileHeader">
+        <span class="tileTopLeft"></span>
+        <span tal:content="view/tile_title">Tile Title</span>
+        <span class="tileTopRight"></span>
+    </dt>
+
+    <dd class="tileItem odd lastItem"
+        tal:define="results view/getTags;">
+      <tal:items tal:repeat="obj results">
+          <a href="#"
+             rel="nofollow"
+             tal:attributes="href obj/href;
+                             title obj/count">
+              <span tal:attributes="class obj/class;"
+                    tal:content="structure obj/text">Tag</span>
+          </a>
+      </tal:items>
+      <span class="tileBottomLeft"></span>
+      <span class="tileBottomRight"></span>
+    </dd>
+
+</dl>
