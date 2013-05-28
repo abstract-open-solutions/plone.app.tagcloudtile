@@ -17,7 +17,6 @@
     description="Installs the plone.app.tagcloudtile package"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
-  <!-- -*- extra stuff goes here -*- -->
 
   <utility
     component=".vocabularies.SubjectsVocabularyFactory"
@@ -35,6 +34,11 @@
     add_permission="cmf.ModifyPortalContent"
     for="*"
     layer=".interfaces.ILayer"
+    />
+
+  <browser:resource
+    name="plone.app.tagcloudtile.css"
+    file="resources/tagcloud.css"
     />
 
 </configure>
