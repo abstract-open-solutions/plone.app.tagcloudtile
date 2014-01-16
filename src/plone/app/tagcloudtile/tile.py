@@ -213,7 +213,7 @@ class TagCloud(PersistentTile):
                 continue
             item["text"] = tag
             item["class"] = "cloud" + str(size)
-            href = self.portal_url + "/search?Subject%3Alist=" + url_quote(tag)
+            href = self.portal_url + "/@@search?Subject%3Alist=" + url_quote(tag)
             #Add type restrictions to search link
             href = href + "".join([
                 "&portal_type%3Alist=" + url_quote(ptype)
