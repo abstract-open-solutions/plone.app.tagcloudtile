@@ -5,6 +5,7 @@ from zope.interface import Interface
 from zope import schema
 from zope.i18n import translate
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
@@ -16,6 +17,7 @@ from Products.PythonScripts.standard import url_quote
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.tagcloudtile.vocabularies import SubjectsVocabularyFactory
+from plone.app.tagcloudtile.interfaces import IQueryGetter
 from plone.app.tagcloudtile import _
 
 
@@ -268,6 +270,11 @@ class TagCloud(PersistentTile):
                 relativeRoot=self.root)
         if self.wfStates:
             query['review_state'] = self.wfStates
+
+        query_getter = queryMultiAdapter((self, self.context), IQueryGetter)
+        if query_getter:
+            query.update(query_getter(**query))
+
         for tag in tags:
             result = []
             if filterTags:
