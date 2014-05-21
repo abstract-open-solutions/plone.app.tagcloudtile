@@ -7,8 +7,8 @@ from zope.i18n import translate
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 
-from plone.app.vocabularies.catalog import SearchableTextSourceBinder
-from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
+# from plone.app.vocabularies.catalog import SearchableTextSourceBinder
+# from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.memoize import ram
 from plone.tiles import PersistentTile
@@ -16,8 +16,9 @@ from plone.tiles import PersistentTile
 from Products.PythonScripts.standard import url_quote
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.tagcloudtile.vocabularies import SubjectsVocabularyFactory
+# from plone.app.tagcloudtile.vocabularies import SubjectsVocabularyFactory
 from plone.app.tagcloudtile.interfaces import IQueryGetter
+from plone.app.tagcloudtile.interfaces import ICacheKeyGetter
 from plone.app.tagcloudtile import _
 
 
@@ -26,15 +27,21 @@ def _cachekey(method, self):
     XXX: If you need to publish private items you should probably
     include the member id in the cache key.
     """
-    portal_state = getMultiAdapter((self.context, self.request),
-                                   name=u'plone_portal_state')
-    portal_url = portal_state.portal_url()
-    lang = self.request.get('LANGUAGE', 'en')
-    data_string = '-'.join(['%s:%s' % (k, v)
-                            for k, v in self.data.items()
-                            if v])
-    return hash((portal_url, lang, data_string,
-                 time() // self.refreshInterval))
+    cachekey_getter = queryMultiAdapter((self.context, self.request),
+                                        ICacheKeyGetter)
+    if cachekey_getter:
+        key = cachekey_getter(**self.data)
+    else:
+        portal_state = getMultiAdapter((self.context, self.request),
+                                       name=u'plone_portal_state')
+        portal_url = portal_state.portal_url()
+        lang = self.request.get('LANGUAGE', 'en')
+        data_string = '-'.join(['%s:%s' % (k, v)
+                                for k, v in self.data.items()
+                                if v])
+        key = hash((portal_url, lang, data_string,
+                   time() // self.refreshInterval))
+    return key
 
 
 class ITagCloudSchema(Interface):
