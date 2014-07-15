@@ -1,13 +1,13 @@
-<dl class="tile tagCloudTile"
+<div class="tile tagCloudTile"
     i18n:domain="plone.app.tagcloudtile">
 
-    <dt class="tileHeader" tal:condition="view/tile_title">
+    <div class="tileHeader" tal:condition="view/tile_title">
         <span class="tileTopLeft"></span>
         <span tal:content="view/tile_title">Tile Title</span>
         <span class="tileTopRight"></span>
-    </dt>
+    </div>
 
-    <dd class="tileItem odd lastItem"
+    <div class="tileItem odd lastItem"
         tal:define="results view/getTags;">
       <tal:items tal:repeat="obj results">
           <a href="#"
@@ -20,6 +20,6 @@
       </tal:items>
       <span class="tileBottomLeft"></span>
       <span class="tileBottomRight"></span>
-    </dd>
+    </div>
 
-</dl>
+</div>
